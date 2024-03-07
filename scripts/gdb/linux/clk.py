@@ -23,9 +23,7 @@ Output is a subset of /sys/kernel/debug/clk/clk_summary
 No calls are made during printing, instead a (c) if printed after values which
 are cached and potentially out of date"""
 
-    def __init__(self):
-        super(LxClkSummary, self).__init__("lx-clk-summary", gdb.COMMAND_DATA)
-
+    
     def show_subtree(self, clk, level):
         gdb.write("%*s%-*s %7d %8d %8d %11lu%s\n" % (
                 level * 3 + 1, "",
@@ -50,6 +48,9 @@ are cached and potentially out of date"""
             self.show_subtree(clk, 0)
         for clk in clk_core_for_each_child(gdb.parse_and_eval("clk_orphan_list")):
             self.show_subtree(clk, 0)
+    def __init__(self):
+        super(LxClkSummary, self).__init__("lx-clk-summary", gdb.COMMAND_DATA)
+
 
 
 LxClkSummary()
